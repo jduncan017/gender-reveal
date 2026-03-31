@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, useMemo, use } from "react";
 import { notFound } from "next/navigation";
 import confetti from "canvas-confetti";
 import Crossword from "~/components/Crossword";
@@ -72,6 +72,14 @@ export default function CrosswordPage({
 
   const data = crosswords[person as PersonKey];
 
+  // Find which index in the secret word is the cipher letter
+  const cipherIndex = useMemo(() => {
+    if (!("cipherCell" in data) || !data.cipherCell) return -1;
+    const [cr, cc] = data.cipherCell as [number, number];
+    const cells = data.highlightedCells as [number, number][];
+    return cells.findIndex(([r, c]) => r === cr && c === cc);
+  }, [data]);
+
   if (data.words.length === 0) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-linear-to-b from-green-50 via-yellow-50 to-green-50 px-4">
@@ -100,33 +108,39 @@ export default function CrosswordPage({
             Your secret word is:
           </p>
 
-          {/* Animated letter reveal */}
-          <div className="mb-8 flex flex-wrap justify-center gap-2">
-            {secretWord.split("").map((letter, i) => (
-              <span
-                key={i}
-                className="animate-reveal inline-block rounded-lg bg-yellow-200 px-3 py-3 text-3xl font-extrabold tracking-widest text-green-900 sm:px-4 sm:text-4xl"
-                style={{ animationDelay: `${i * 0.15 + 0.5}s` }}
-              >
-                {letter}
-              </span>
-            ))}
+          {/* Animated letter reveal — cipher letter highlighted inline */}
+          <div className="mb-8 flex justify-center gap-1.5 sm:gap-2">
+            {secretWord.split("").map((letter, i) => {
+              const isCipher = i === cipherIndex;
+              return (
+                <span
+                  key={i}
+                  className={`animate-reveal inline-block rounded-lg px-2 py-2 text-2xl font-extrabold tracking-widest sm:px-3 sm:py-3 sm:text-3xl ${
+                    isCipher
+                      ? "bg-orange-300 text-orange-900 ring-2 ring-orange-400"
+                      : "bg-yellow-200 text-green-900"
+                  }`}
+                  style={{ animationDelay: `${i * 0.15 + 0.5}s` }}
+                >
+                  {letter}
+                </span>
+              );
+            })}
           </div>
 
           {cipherLetter && (
-            <div
-              className="animate-fade-in mb-6"
+            <p
+              className="animate-fade-in mb-8 text-base text-green-600"
               style={{
                 animationDelay: `${secretWord.length * 0.15 + 1}s`,
               }}
             >
-              <p className="mb-2 text-lg text-green-600">
-                Your secret letter is:
-              </p>
-              <span className="inline-block rounded-lg bg-orange-300 px-5 py-3 text-4xl font-extrabold tracking-widest text-orange-900 ring-2 ring-orange-400">
+              The highlighted letter{" "}
+              <span className="inline-block rounded bg-orange-300 px-1.5 py-0.5 font-extrabold text-orange-900">
                 {cipherLetter}
-              </span>
-            </div>
+              </span>{" "}
+              is your secret letter
+            </p>
           )}
 
           <div
@@ -136,11 +150,10 @@ export default function CrosswordPage({
             }}
           >
             <p className="text-base font-semibold text-green-800">
-              &#x1F4DD; Remember both of these!
+              &#x1F4DD; Remember your word and your letter!
             </p>
             <p className="mt-1 text-sm text-green-600">
-              You&apos;ll need your word and your letter to help unlock the big
-              reveal.
+              You&apos;ll need both to help unlock the big reveal.
             </p>
           </div>
         </div>
