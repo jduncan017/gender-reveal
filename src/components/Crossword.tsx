@@ -629,8 +629,8 @@ export default function Crossword({
         </div>
       </div>
 
-      {/* Clues — right on desktop, below on mobile/tablet */}
-      <div className="w-full min-w-0 flex-1 rounded-2xl border-2 border-green-800/10 bg-neutral-200/50 p-6 text-left">
+      {/* Clues — hidden on mobile (shown in sticky header), visible on desktop */}
+      <div className="hidden w-full min-w-0 flex-1 rounded-2xl border-2 border-green-800/10 bg-neutral-200/50 p-6 text-left lg:block">
         <h3 className="mb-3 border-b-2 border-green-800/10 pb-2 text-base font-extrabold tracking-wider text-green-800 uppercase">
           Down
         </h3>

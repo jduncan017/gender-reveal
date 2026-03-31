@@ -151,12 +151,22 @@ export default function CrosswordPage({
             }}
           >
             <p className="text-base font-semibold text-green-800">
-              &#x1F4DD; Remember your word and your letter!
+              &#x1F4DD; Take a screenshot — you&apos;ll need these!
             </p>
             <p className="mt-1 text-sm text-green-600">
-              You&apos;ll need both to help unlock the big reveal.
+              This isn&apos;t over yet. Something is on its way to you...
             </p>
           </div>
+
+          <a
+            href="/duncan-family/whats-next"
+            className="animate-fade-in mt-6 inline-block text-sm font-semibold text-green-700 underline underline-offset-2 hover:text-green-900"
+            style={{
+              animationDelay: `${secretWord.length * 0.15 + 2}s`,
+            }}
+          >
+            What happens next? &#x2192;
+          </a>
         </div>
       </main>
     );
@@ -173,7 +183,7 @@ export default function CrosswordPage({
         className={`bg-green-900 text-center shadow-lg shadow-green-900/20 transition-all duration-700 ease-in-out ${
           isLanding
             ? "mt-[30vh] w-[calc(100%-2rem)] max-w-lg rounded-lg px-6 py-10 sm:px-12"
-            : "sticky top-0 z-20 mt-0 w-full max-w-full rounded-none px-4 pt-4 pb-3 sm:px-6 sm:pt-8 sm:pb-6"
+            : "fixed top-0 z-20 mt-0 w-full max-w-full rounded-none px-4 pt-4 pb-3 sm:px-6 lg:static lg:pt-8 lg:pb-6"
         }`}
       >
         {/* Landing view */}
@@ -226,7 +236,7 @@ export default function CrosswordPage({
 
       {/* Puzzle — fades in after header animates up */}
       <div
-        className={`mx-auto w-full max-w-6xl flex-1 items-start px-2 py-4 transition-all duration-700 sm:items-center sm:px-6 sm:py-8 lg:flex lg:justify-center ${
+        className={`mx-auto w-full max-w-6xl flex-1 items-start px-2 pt-20 pb-4 transition-all duration-700 sm:items-center sm:px-6 sm:py-8 lg:flex lg:justify-center lg:pt-8 ${
           isLanding ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >

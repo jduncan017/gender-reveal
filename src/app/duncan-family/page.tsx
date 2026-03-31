@@ -6,7 +6,7 @@ export default function DuncanFamilyPage() {
       family="duncan"
       familyTitle="Duncan Family"
       labels={["Mom", "Dad", "Mimi", "Papa", "Jacque", "Jenna"]}
-      subtitle="Enter the highlighted word from your crossword puzzle to unlock the reveal!"
+      subtitle="You know what to do. Enter your secret word to unlock the reveal."
       columns={2}
     />
   );
