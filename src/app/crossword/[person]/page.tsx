@@ -176,14 +176,17 @@ export default function CrosswordPage({
   const isLanding = phase === "landing";
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-linear-to-b from-green-50 via-yellow-50 to-green-50">
-      {/* Header — centered on landing, slides to top on puzzle */}
+    <main
+      className={`min-h-screen bg-linear-to-b from-green-50 via-yellow-50 to-green-50 ${
+        isLanding ? "flex flex-col items-center" : ""
+      }`}
+    >
       {/* Header — card on landing, sticky bar on puzzle */}
       <div
         className={`bg-green-900 text-center shadow-lg shadow-green-900/20 transition-all duration-700 ease-in-out ${
           isLanding
-            ? "mt-[30vh] w-[calc(100%-2rem)] max-w-lg rounded-lg px-6 py-10 sm:px-12"
-            : "fixed top-0 z-20 mt-0 w-full max-w-full rounded-none px-4 pt-4 pb-3 sm:px-6 lg:static lg:pt-8 lg:pb-6"
+            ? "mt-[30vh] w-[calc(100%-2rem)] max-w-lg self-center rounded-lg px-6 py-10 sm:px-12"
+            : "sticky top-0 z-20 w-full px-4 pt-3 pb-2 sm:px-6 sm:pt-6 sm:pb-4"
         }`}
       >
         {/* Landing view */}
@@ -219,24 +222,24 @@ export default function CrosswordPage({
             isLanding ? "max-h-0 opacity-0" : "max-h-40 opacity-100"
           }`}
         >
-          <h1 className="text-base font-bold tracking-tight text-white sm:text-2xl">
+          <h1 className="text-sm font-bold tracking-tight text-white sm:text-2xl">
             {data.name}&apos;s Crossword
           </h1>
           {activeClue ? (
-            <p className="mt-1 text-sm leading-snug text-green-200 sm:text-base">
+            <p className="mt-0.5 text-xs leading-snug text-green-200 sm:mt-1 sm:text-base">
               {activeClue}
             </p>
           ) : (
-            <p className="mt-1 text-sm text-green-300 sm:text-base">
+            <p className="mt-0.5 text-xs text-green-300 sm:mt-1 sm:text-base">
               Tap a cell or clue to begin
             </p>
           )}
         </div>
       </div>
 
-      {/* Puzzle — fades in after header animates up */}
+      {/* Puzzle */}
       <div
-        className={`mx-auto w-full max-w-6xl flex-1 items-start px-2 pt-20 pb-4 transition-all duration-700 sm:items-center sm:px-6 sm:py-8 lg:flex lg:justify-center lg:pt-8 ${
+        className={`mx-auto w-full max-w-6xl px-2 pt-4 pb-4 transition-all duration-700 sm:px-6 sm:py-8 lg:flex lg:justify-center ${
           isLanding ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >
