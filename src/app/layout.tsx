@@ -7,6 +7,17 @@ export const metadata: Metadata = {
   title: "Baby Marzofka-Duncan Gender Reveal",
   description: "Something special is on the way!",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  openGraph: {
+    title: "Baby Marzofka-Duncan Gender Reveal",
+    description: "Something special is on the way!",
+    images: [{ url: "/opengraph.png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Baby Marzofka-Duncan Gender Reveal",
+    description: "Something special is on the way!",
+    images: ["/opengraph.png"],
+  },
   robots: {
     index: false,
     follow: false,
