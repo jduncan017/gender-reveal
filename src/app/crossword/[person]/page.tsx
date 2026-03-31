@@ -59,6 +59,7 @@ export default function CrosswordPage({
   const [phase, setPhase] = useState<"landing" | "puzzle" | "done">("landing");
   const [secretWord, setSecretWord] = useState("");
   const [cipherLetter, setCipherLetter] = useState("");
+  const [activeClue, setActiveClue] = useState<string | null>(null);
 
   useEffect(() => {
     if (phase === "done") {
@@ -167,45 +168,65 @@ export default function CrosswordPage({
   return (
     <main className="flex min-h-screen flex-col items-center bg-linear-to-b from-green-50 via-yellow-50 to-green-50">
       {/* Header — centered on landing, slides to top on puzzle */}
+      {/* Header — card on landing, sticky bar on puzzle */}
       <div
         className={`bg-green-900 text-center shadow-lg shadow-green-900/20 transition-all duration-700 ease-in-out ${
           isLanding
             ? "mt-[30vh] w-[calc(100%-2rem)] max-w-lg rounded-lg px-6 py-10 sm:px-12"
-            : "mt-0 w-full max-w-full rounded-none px-6 pt-16 pb-10"
+            : "sticky top-0 z-20 mt-0 w-full max-w-full rounded-none px-4 pt-4 pb-3 sm:px-6 sm:pt-8 sm:pb-6"
         }`}
       >
-        <p className="mb-2 text-4xl">&#x1F9E9;</p>
-        <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
-          {data.name}&apos;s Crossword
-        </h1>
-        <p className="mt-2 text-green-100">
-          {isLanding
-            ? "We made you a personalized crossword puzzle!"
-            : "Fill in the grid to unlock a surprise"}
-        </p>
-
-        {/* Landing content — inside the card */}
+        {/* Landing view */}
         <div
           className={`overflow-hidden transition-all duration-700 ${
-            isLanding ? "mt-6 max-h-40 opacity-100" : "max-h-0 opacity-0"
+            isLanding ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <p className="mb-6 text-base leading-relaxed text-green-200">
-            Solve the puzzle to unlock a special surprise. Take your time — no
-            rush!
+          <p className="mb-2 text-4xl">&#x1F9E9;</p>
+          <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
+            {data.name}&apos;s Crossword
+          </h1>
+          <p className="mt-2 text-green-100">
+            We made you a personalized crossword puzzle!
           </p>
-          <button
-            onClick={() => setPhase("puzzle")}
-            className="rounded-xl bg-green-600 px-10 py-4 text-lg font-bold text-white transition-colors hover:bg-green-500"
-          >
-            Start Puzzle
-          </button>
+          <div className="mt-6">
+            <p className="mb-6 text-base leading-relaxed text-green-200">
+              Solve the puzzle to unlock a special surprise. Take your time — no
+              rush!
+            </p>
+            <button
+              onClick={() => setPhase("puzzle")}
+              className="rounded-xl bg-green-600 px-10 py-4 text-lg font-bold text-white transition-colors hover:bg-green-500"
+            >
+              Start Puzzle
+            </button>
+          </div>
+        </div>
+
+        {/* Puzzle view — compact header with active clue */}
+        <div
+          className={`overflow-hidden transition-all duration-700 ${
+            isLanding ? "max-h-0 opacity-0" : "max-h-40 opacity-100"
+          }`}
+        >
+          <h1 className="text-base font-bold tracking-tight text-white sm:text-2xl">
+            {data.name}&apos;s Crossword
+          </h1>
+          {activeClue ? (
+            <p className="mt-1 text-sm leading-snug text-green-200 sm:text-base">
+              {activeClue}
+            </p>
+          ) : (
+            <p className="mt-1 text-sm text-green-300 sm:text-base">
+              Tap a cell or clue to begin
+            </p>
+          )}
         </div>
       </div>
 
       {/* Puzzle — fades in after header animates up */}
       <div
-        className={`w-full max-w-6xl flex-1 items-start px-4 py-6 transition-all duration-700 sm:items-center sm:px-6 sm:py-8 ${
+        className={`mx-auto w-full max-w-6xl flex-1 items-start px-2 py-4 transition-all duration-700 sm:items-center sm:px-6 sm:py-8 lg:flex lg:justify-center ${
           isLanding ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >
@@ -232,6 +253,7 @@ export default function CrosswordPage({
             setCipherLetter(cipher);
             setTimeout(() => setPhase("done"), 1500);
           }}
+          onActiveClueChange={setActiveClue}
         />
       </div>
     </main>

@@ -17,6 +17,7 @@ interface CrosswordProps {
   highlightedCells: [number, number][];
   cipherCell: [number, number] | null;
   onComplete: (highlightedWord: string, cipherLetter: string) => void;
+  onActiveClueChange?: (clue: string | null) => void;
 }
 
 interface CellInfo {
@@ -128,6 +129,7 @@ export default function Crossword({
   highlightedCells,
   cipherCell,
   onComplete,
+  onActiveClueChange,
 }: CrosswordProps) {
   const { grid, acrossClues, downClues } = useMemo(
     () => buildGrid(rows, cols, words, highlightedCells, cipherCell),
@@ -174,6 +176,21 @@ export default function Crossword({
         : (cell.downWord ?? cell.acrossWord);
     return idx;
   }, [selectedCell, direction, grid]);
+
+  // Get active clue info for header display
+  const activeClueInfo = useMemo(() => {
+    if (currentWordIdx === null) return null;
+    const word = words[currentWordIdx]!;
+    const clueList = word.direction === "across" ? acrossClues : downClues;
+    const clue = clueList.find((c) => c.wordIdx === currentWordIdx);
+    if (!clue) return null;
+    return `${clue.number} ${word.direction === "across" ? "Across" : "Down"}: ${clue.clue}`;
+  }, [currentWordIdx, words, acrossClues, downClues]);
+
+  // Notify parent of active clue changes
+  useEffect(() => {
+    onActiveClueChange?.(activeClueInfo);
+  }, [activeClueInfo, onActiveClueChange]);
 
   // Active word cells
   const activeWordCells = useMemo(() => {
@@ -243,7 +260,14 @@ export default function Crossword({
   }, [grid, rows, cols, userInput, checkCompletion, highlightedCells, cipherCell, onComplete]);
 
   const focusCell = useCallback((r: number, c: number) => {
-    setTimeout(() => inputRefs.current[r]?.[c]?.focus(), 0);
+    setTimeout(() => {
+      const input = inputRefs.current[r]?.[c];
+      if (input) {
+        input.focus({ preventScroll: true });
+        // Scroll the cell into view smoothly
+        input.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+      }
+    }, 0);
   }, []);
 
   // Advance to next empty cell in current word, or next cell if all filled
@@ -524,7 +548,7 @@ export default function Crossword({
       <audio ref={unlockAudioRef} src="/unlock.mp3" preload="auto" />
 
       {/* Grid + Clues */}
-      <div className="flex w-full flex-col items-center gap-6 lg:flex-row lg:items-start lg:gap-6">
+      <div className="flex w-full flex-col items-center gap-6 lg:flex-row lg:items-start lg:justify-center lg:gap-6">
 
       {/* Grid */}
       <div className="shrink-0 overflow-x-auto">
@@ -559,8 +583,6 @@ export default function Crossword({
                   key={key}
                   style={{ boxShadow: "inset 0 0 0 1px #a3a3a3" }}
                   className={`relative aspect-square transition-colors ${
-                    isSelected ? "z-10 ring-2 ring-green-500" : ""
-                  } ${
                     isIncorrect
                       ? "animate-shake bg-red-200"
                       : completed && cell.isCipher
@@ -569,9 +591,11 @@ export default function Crossword({
                           ? "bg-yellow-200"
                           : completed
                             ? "bg-green-100"
-                            : isActive
-                              ? "bg-green-100"
-                              : "bg-white"
+                            : isSelected
+                              ? "z-10 bg-yellow-300 ring-3 ring-yellow-500"
+                              : isActive
+                                ? "bg-green-200"
+                                : "bg-white"
                   }`}
                   onClick={() => handleCellClick(r, c)}
                 >
@@ -594,7 +618,7 @@ export default function Crossword({
                     onKeyDown={(e) => handleKeyDown(e, r, c)}
                     onFocus={() => setSelectedCell([r, c])}
                     onChange={() => undefined}
-                    className={`absolute inset-0 h-full w-full bg-transparent pt-1 text-center text-sm font-bold uppercase caret-transparent outline-none sm:pt-2 sm:text-xl md:text-2xl ${
+                    className={`absolute inset-0 h-full w-full bg-transparent pt-1 text-center text-base font-bold uppercase caret-transparent outline-none sm:pt-2 sm:text-xl md:text-2xl ${
                       isHinted ? "text-yellow-600" : "text-gray-800"
                     }`}
                   />
@@ -655,7 +679,7 @@ export default function Crossword({
           {hintsRemaining > 0 && (
             <button
               onClick={handleHint}
-              className="rounded-xl bg-yellow-500 px-6 py-3 text-lg font-bold text-white transition-colors hover:bg-yellow-600"
+              className="rounded-xl bg-amber-600 px-6 py-3 text-lg font-bold text-white transition-colors hover:bg-amber-700"
             >
               Hint ({hintsRemaining})
             </button>
