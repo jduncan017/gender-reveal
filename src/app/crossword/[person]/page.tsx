@@ -59,7 +59,6 @@ export default function CrosswordPage({
   const [phase, setPhase] = useState<"landing" | "puzzle" | "done">("landing");
   const [secretWord, setSecretWord] = useState("");
   const [cipherLetter, setCipherLetter] = useState("");
-  const [activeClue, setActiveClue] = useState<string | null>(null);
 
   useEffect(() => {
     if (phase === "done") {
@@ -160,7 +159,7 @@ export default function CrosswordPage({
 
           <a
             href="/duncan-family/whats-next"
-            className="animate-fade-in mt-6 inline-block text-sm font-semibold text-green-700 underline underline-offset-2 hover:text-green-900"
+            className="animate-fade-in mt-6 inline-block rounded-xl bg-green-700 px-8 py-4 text-lg font-bold text-white transition-colors hover:bg-green-800"
             style={{
               animationDelay: `${secretWord.length * 0.15 + 2}s`,
             }}
@@ -186,7 +185,7 @@ export default function CrosswordPage({
         className={`bg-green-900 text-center shadow-lg shadow-green-900/20 transition-all duration-700 ease-in-out ${
           isLanding
             ? "mt-[30vh] w-[calc(100%-2rem)] max-w-lg self-center rounded-lg px-6 py-10 sm:px-12"
-            : "sticky top-0 z-20 w-full px-4 pt-3 pb-2 sm:px-6 sm:pt-6 sm:pb-4"
+            : "w-full px-4 pt-6 pb-4 sm:px-6 sm:pt-10 sm:pb-6"
         }`}
       >
         {/* Landing view */}
@@ -216,30 +215,24 @@ export default function CrosswordPage({
           </div>
         </div>
 
-        {/* Puzzle view — compact header with active clue */}
+        {/* Puzzle view — simple header */}
         <div
           className={`overflow-hidden transition-all duration-700 ${
             isLanding ? "max-h-0 opacity-0" : "max-h-40 opacity-100"
           }`}
         >
-          <h1 className="text-sm font-bold tracking-tight text-white sm:text-2xl">
+          <h1 className="text-lg font-bold tracking-tight text-white sm:text-2xl">
             {data.name}&apos;s Crossword
           </h1>
-          {activeClue ? (
-            <p className="mt-0.5 text-xs leading-snug text-green-200 sm:mt-1 sm:text-base">
-              {activeClue}
-            </p>
-          ) : (
-            <p className="mt-0.5 text-xs text-green-300 sm:mt-1 sm:text-base">
-              Tap a cell or clue to begin
-            </p>
-          )}
+          <p className="mt-1 text-sm text-green-200 sm:text-base">
+            Fill in the grid to unlock a surprise
+          </p>
         </div>
       </div>
 
       {/* Puzzle */}
       <div
-        className={`mx-auto w-full max-w-6xl px-2 pt-4 pb-4 transition-all duration-700 sm:px-6 sm:py-8 lg:flex lg:justify-center ${
+        className={`mx-auto w-full max-w-6xl px-2 py-6 transition-all duration-700 sm:px-6 sm:py-8 lg:flex lg:justify-center ${
           isLanding ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >
@@ -266,7 +259,6 @@ export default function CrosswordPage({
             setCipherLetter(cipher);
             setTimeout(() => setPhase("done"), 1500);
           }}
-          onActiveClueChange={setActiveClue}
         />
       </div>
     </main>

@@ -92,6 +92,7 @@ export default function PasswordPage({
       });
       if (unlockAudioRef.current) {
         unlockAudioRef.current.currentTime = 0;
+        unlockAudioRef.current.volume = 0.5;
         void unlockAudioRef.current.play();
       }
     } else {
@@ -102,6 +103,7 @@ export default function PasswordPage({
       });
       if (errorAudioRef.current) {
         errorAudioRef.current.currentTime = 0;
+        errorAudioRef.current.volume = 0.5;
         void errorAudioRef.current.play();
       }
     }

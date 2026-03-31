@@ -17,7 +17,7 @@ interface CrosswordProps {
   highlightedCells: [number, number][];
   cipherCell: [number, number] | null;
   onComplete: (highlightedWord: string, cipherLetter: string) => void;
-  onActiveClueChange?: (clue: string | null) => void;
+  onActiveClueChange?: (clue: { prefix: string; text: string } | null) => void;
 }
 
 interface CellInfo {
@@ -143,23 +143,21 @@ export default function Crossword({
   );
 
   const [userInput, setUserInput] = useState<string[][]>(() =>
-    Array.from({ length: rows }, () =>
-      Array.from({ length: cols }, () => ""),
-    ),
+    Array.from({ length: rows }, () => Array.from({ length: cols }, () => "")),
   );
   const [selectedCell, setSelectedCell] = useState<[number, number] | null>(
     null,
   );
   const [direction, setDirection] = useState<"across" | "down">("across");
   const [completed, setCompleted] = useState(false);
-  const [incorrectCells, setIncorrectCells] = useState<Set<string>>(
-    new Set(),
-  );
+  const [incorrectCells, setIncorrectCells] = useState<Set<string>>(new Set());
   const [hintsRemaining, setHintsRemaining] = useState(5);
   const [hintedCells, setHintedCells] = useState<Set<string>>(new Set());
 
   const inputRefs = useRef<(HTMLInputElement | null)[][]>(
-    Array.from({ length: rows }, () => Array.from({ length: cols }, () => null)),
+    Array.from({ length: rows }, () =>
+      Array.from({ length: cols }, () => null),
+    ),
   );
   const errorAudioRef = useRef<HTMLAudioElement>(null);
   const unlockAudioRef = useRef<HTMLAudioElement>(null);
@@ -184,7 +182,10 @@ export default function Crossword({
     const clueList = word.direction === "across" ? acrossClues : downClues;
     const clue = clueList.find((c) => c.wordIdx === currentWordIdx);
     if (!clue) return null;
-    return `${clue.number} ${word.direction === "across" ? "Across" : "Down"}: ${clue.clue}`;
+    return {
+      prefix: `${clue.number} ${word.direction === "across" ? "Across" : "Down"}`,
+      text: clue.clue,
+    };
   }, [currentWordIdx, words, acrossClues, downClues]);
 
   // Notify parent of active clue changes
@@ -202,7 +203,6 @@ export default function Crossword({
     }
     return cells;
   }, [currentWordIdx, words]);
-
 
   const checkCompletion = useCallback(
     (input: string[][]) => {
@@ -236,12 +236,14 @@ export default function Crossword({
     if (wrong.size > 0) {
       if (errorAudioRef.current) {
         errorAudioRef.current.currentTime = 0;
+        errorAudioRef.current.volume = 0.5;
         void errorAudioRef.current.play();
       }
     } else if (checkCompletion(userInput)) {
       setCompleted(true);
       if (unlockAudioRef.current) {
         unlockAudioRef.current.currentTime = 0;
+        unlockAudioRef.current.volume = 0.5;
         void unlockAudioRef.current.play();
       }
       const highlightedWord = highlightedCells
@@ -254,10 +256,20 @@ export default function Crossword({
     } else {
       if (unlockAudioRef.current) {
         unlockAudioRef.current.currentTime = 0;
+        unlockAudioRef.current.volume = 0.5;
         void unlockAudioRef.current.play();
       }
     }
-  }, [grid, rows, cols, userInput, checkCompletion, highlightedCells, cipherCell, onComplete]);
+  }, [
+    grid,
+    rows,
+    cols,
+    userInput,
+    checkCompletion,
+    highlightedCells,
+    cipherCell,
+    onComplete,
+  ]);
 
   const focusCell = useCallback((r: number, c: number) => {
     setTimeout(() => {
@@ -265,44 +277,50 @@ export default function Crossword({
       if (input) {
         input.focus({ preventScroll: true });
         // Scroll the cell into view smoothly
-        input.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+        input.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
       }
     }, 0);
   }, []);
 
-  // Advance to next empty cell in current word, or next cell if all filled
+  // Advance to next cell in a specific word, or jump to next word if at end
   const advanceInWord = useCallback(
-    (r: number, c: number, input: string[][]) => {
-      if (currentWordIdx === null) return;
-      const word = words[currentWordIdx]!;
+    (r: number, c: number, wordIdx: number) => {
+      const word = words[wordIdx]!;
       const cells = getWordCells(word);
       const myIdx = cells.findIndex(([cr, cc]) => cr === r && cc === c);
 
-      // First try to find next empty cell in this word
-      for (let i = myIdx + 1; i < cells.length; i++) {
-        const [nr, nc] = cells[i]!;
-        if (!input[nr]![nc]) {
-          setSelectedCell([nr, nc]);
-          focusCell(nr, nc);
-          return;
-        }
-      }
-
-      // If no empty cell after, just go to next cell
       if (myIdx + 1 < cells.length) {
         const [nr, nc] = cells[myIdx + 1]!;
         setSelectedCell([nr, nc]);
         focusCell(nr, nc);
+      } else {
+        // End of word — jump to next word in allClues cycle
+        const currentIdx = allClues.findIndex((cl) => cl.wordIdx === wordIdx);
+        const nextIdx = (currentIdx + 1) % allClues.length;
+        const nextClue = allClues[nextIdx]!;
+        const nextWord = words[nextClue.wordIdx]!;
+        setDirection(nextWord.direction);
+
+        const nextCells = getWordCells(nextWord);
+        const emptyCell = nextCells.find(
+          ([nr, nc]) => !userInput[nr]![nc],
+        );
+        const target = emptyCell ?? nextCells[0]!;
+        setSelectedCell(target);
+        focusCell(target[0], target[1]);
       }
     },
-    [currentWordIdx, words, focusCell],
+    [words, focusCell, allClues, userInput],
   );
 
-  // Retreat within current word
+  // Retreat within a specific word
   const retreatInWord = useCallback(
-    (r: number, c: number) => {
-      if (currentWordIdx === null) return;
-      const word = words[currentWordIdx]!;
+    (r: number, c: number, wordIdx: number) => {
+      const word = words[wordIdx]!;
       const cells = getWordCells(word);
       const myIdx = cells.findIndex(([cr, cc]) => cr === r && cc === c);
       if (myIdx > 0) {
@@ -311,7 +329,7 @@ export default function Crossword({
         focusCell(nr, nc);
       }
     },
-    [currentWordIdx, words, focusCell],
+    [words, focusCell],
   );
 
   const handleCellClick = useCallback(
@@ -354,6 +372,12 @@ export default function Crossword({
       const cell = grid[r]?.[c];
       if (!cell) return;
 
+      // Capture the current word index NOW, before any state changes
+      const myWordIdx =
+        direction === "across"
+          ? (cell.acrossWord ?? cell.downWord)
+          : (cell.downWord ?? cell.acrossWord);
+
       if (incorrectCells.size > 0) {
         setIncorrectCells(new Set());
       }
@@ -366,8 +390,8 @@ export default function Crossword({
             next[r]![c] = "";
             return next;
           });
-        } else {
-          retreatInWord(r, c);
+        } else if (myWordIdx !== null) {
+          retreatInWord(r, c, myWordIdx);
         }
         return;
       }
@@ -434,9 +458,7 @@ export default function Crossword({
 
         // Jump to first empty cell in the next word
         const nextCells = getWordCells(nextWord);
-        const emptyCell = nextCells.find(
-          ([nr, nc]) => !userInput[nr]![nc],
-        );
+        const emptyCell = nextCells.find(([nr, nc]) => !userInput[nr]![nc]);
         const target = emptyCell ?? nextCells[0]!;
         setSelectedCell(target);
         focusCell(target[0], target[1]);
@@ -449,7 +471,9 @@ export default function Crossword({
         const newInput = userInput.map((row) => [...row]);
         newInput[r]![c] = letter;
         setUserInput(newInput);
-        advanceInWord(r, c, newInput);
+        if (myWordIdx !== null) {
+          advanceInWord(r, c, myWordIdx);
+        }
       }
     },
     [
@@ -475,9 +499,7 @@ export default function Crossword({
       setDirection(word.direction);
 
       const cells = getWordCells(word);
-      const emptyCell = cells.find(
-        ([r, c]) => !userInput[r]![c],
-      );
+      const emptyCell = cells.find(([r, c]) => !userInput[r]![c]);
       const target = emptyCell ?? cells[0]!;
       setSelectedCell(target);
       focusCell(target[0], target[1]);
@@ -549,130 +571,147 @@ export default function Crossword({
 
       {/* Grid + Clues */}
       <div className="flex w-full flex-col items-center gap-6 lg:flex-row lg:items-start lg:justify-center lg:gap-6">
-
-      {/* Grid */}
-      <div className="shrink-0 overflow-x-auto">
-        <div
-          className="grid gap-0 bg-green-950"
-          style={{
-            gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-            width: `min(${cols * 48}px, 90vw)`,
-          }}
-        >
-          {Array.from({ length: rows }).map((_, r) =>
-            Array.from({ length: cols }).map((_, c) => {
-              const cell = grid[r]![c];
-              const key = `${r}-${c}`;
-              const isSelected =
-                selectedCell?.[0] === r && selectedCell?.[1] === c;
-              const isActive = activeWordCells.has(`${r},${c}`);
-              const isIncorrect = incorrectCells.has(`${r},${c}`);
-              const isHinted = hintedCells.has(`${r},${c}`);
-
-              if (!cell) {
-                return (
-                  <div
-                    key={key}
-                    className="aspect-square bg-green-950"
-                  />
-                );
-              }
-
-              return (
-                <div
-                  key={key}
-                  style={{ boxShadow: "inset 0 0 0 1px #a3a3a3" }}
-                  className={`relative aspect-square transition-colors ${
-                    isIncorrect
-                      ? "animate-shake bg-red-200"
-                      : completed && cell.isCipher
-                        ? "bg-orange-300 ring-2 ring-orange-400"
-                        : completed && cell.isHighlighted
-                          ? "bg-yellow-200"
-                          : completed
-                            ? "bg-green-100"
-                            : isSelected
-                              ? "z-10 bg-yellow-300 ring-3 ring-yellow-500"
-                              : isActive
-                                ? "bg-green-200"
-                                : "bg-white"
-                  }`}
-                  onClick={() => handleCellClick(r, c)}
-                >
-                  {cell.number && (
-                    <span className="absolute top-px left-0.5 text-[7px] leading-none font-bold text-neutral-500 sm:top-0.5 sm:left-1 sm:text-[10px] md:text-xs">
-                      {cell.number}
-                    </span>
-                  )}
-                  <input
-                    ref={(el) => {
-                      inputRefs.current[r]![c] = el;
-                    }}
-                    type="text"
-                    inputMode="text"
-                    autoComplete="off"
-                    autoCapitalize="characters"
-                    maxLength={1}
-                    readOnly={completed}
-                    value={userInput[r]![c] ?? ""}
-                    onKeyDown={(e) => handleKeyDown(e, r, c)}
-                    onFocus={() => setSelectedCell([r, c])}
-                    onChange={() => undefined}
-                    className={`absolute inset-0 h-full w-full bg-transparent pt-1 text-center text-base font-bold uppercase caret-transparent outline-none sm:pt-2 sm:text-xl md:text-2xl ${
-                      isHinted ? "text-yellow-600" : "text-gray-800"
-                    }`}
-                  />
-                </div>
-              );
-            }),
+        {/* Grid wrapper */}
+        <div className="relative shrink-0">
+          {/* Floating clue modal — below active cell, mobile only */}
+          {activeClueInfo && selectedCell && !completed && (
+            <div
+              className="pointer-events-none absolute left-0 z-30 w-full px-1 lg:hidden"
+              style={{
+                top: `calc(${((selectedCell[0] + 1) / rows) * 100}% + 0.5rem)`,
+              }}
+            >
+              <div className="pointer-events-auto rounded-lg bg-black/90 px-3 py-2 text-center shadow-lg">
+                <p className="text-sm leading-snug text-white">
+                  <span className="font-medium text-white/70">{activeClueInfo.prefix}:</span>{" "}
+                  {activeClueInfo.text}
+                </p>
+              </div>
+            </div>
           )}
+
+          <div className="overflow-x-auto">
+            <div
+              className="grid gap-0 bg-green-950"
+              style={{
+                gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+                width: `min(${cols * 48}px, 90vw)`,
+              }}
+            >
+              {Array.from({ length: rows }).map((_, r) =>
+                Array.from({ length: cols }).map((_, c) => {
+                  const cell = grid[r]![c];
+                  const key = `${r}-${c}`;
+                  const isSelected =
+                    selectedCell?.[0] === r && selectedCell?.[1] === c;
+                  const isActive = activeWordCells.has(`${r},${c}`);
+                  const isIncorrect = incorrectCells.has(`${r},${c}`);
+                  const isHinted = hintedCells.has(`${r},${c}`);
+
+                  if (!cell) {
+                    return (
+                      <div key={key} className="aspect-square bg-green-950" />
+                    );
+                  }
+
+                  return (
+                    <div
+                      key={key}
+                      style={{ boxShadow: "inset 0 0 0 1px #a3a3a3" }}
+                      className={`relative aspect-square transition-colors ${
+                        isIncorrect
+                          ? "animate-shake bg-red-200"
+                          : completed && cell.isCipher
+                            ? "bg-orange-300 ring-2 ring-orange-400"
+                            : completed && cell.isHighlighted
+                              ? "bg-yellow-200"
+                              : completed
+                                ? "bg-green-100"
+                                : isSelected
+                                  ? "z-10 bg-yellow-300 ring-3 ring-yellow-500"
+                                  : isActive
+                                    ? "bg-green-200"
+                                    : "bg-white"
+                      }`}
+                      onClick={() => handleCellClick(r, c)}
+                    >
+                      {cell.number && (
+                        <span className="absolute top-px left-0.5 text-[7px] leading-none font-bold text-neutral-500 sm:top-0.5 sm:left-1 sm:text-[10px] md:text-xs">
+                          {cell.number}
+                        </span>
+                      )}
+                      <input
+                        ref={(el) => {
+                          inputRefs.current[r]![c] = el;
+                        }}
+                        type="text"
+                        inputMode="text"
+                        autoComplete="off"
+                        autoCapitalize="characters"
+                        maxLength={1}
+                        readOnly={completed}
+                        value={userInput[r]![c] ?? ""}
+                        onKeyDown={(e) => handleKeyDown(e, r, c)}
+                        onFocus={() => setSelectedCell([r, c])}
+                        onChange={() => undefined}
+                        className={`absolute inset-0 h-full w-full bg-transparent pt-1 text-center text-base font-bold uppercase caret-transparent outline-none sm:pt-2 sm:text-xl md:text-2xl ${
+                          isHinted ? "text-yellow-600" : "text-gray-800"
+                        }`}
+                      />
+                    </div>
+                  );
+                }),
+              )}
+            </div>
+          </div>
+          {/* end overflow-x-auto */}
+        </div>
+        {/* end grid wrapper */}
+
+        {/* Clues — hidden on mobile (shown in floating modal), visible on desktop */}
+        <div className="hidden w-full min-w-0 flex-1 rounded-2xl border-2 border-green-800/10 bg-neutral-200/50 p-6 text-left lg:block">
+          <h3 className="mb-3 border-b-2 border-green-800/10 pb-2 text-base font-extrabold tracking-wider text-green-800 uppercase">
+            Down
+          </h3>
+          <ul className="mb-6 space-y-0">
+            {downClues.map((clue) => (
+              <li
+                key={clue.number}
+                onClick={() => handleClueClick(clue.wordIdx)}
+                className={`cursor-pointer border-b border-green-800/15 px-3 py-3 text-base transition-colors last:border-b-0 ${
+                  currentWordIdx === clue.wordIdx
+                    ? "rounded bg-green-800/5 font-semibold text-green-900"
+                    : "text-gray-700 hover:bg-green-800/[0.02]"
+                }`}
+              >
+                <span className="font-bold text-green-700">{clue.number}.</span>{" "}
+                {clue.clue}
+              </li>
+            ))}
+          </ul>
+
+          <h3 className="mb-3 border-b-2 border-green-800/10 pb-2 text-base font-extrabold tracking-wider text-green-800 uppercase">
+            Across
+          </h3>
+          <ul className="space-y-0">
+            {acrossClues.map((clue) => (
+              <li
+                key={clue.number}
+                onClick={() => handleClueClick(clue.wordIdx)}
+                className={`cursor-pointer border-b border-green-800/15 px-3 py-3 text-base transition-colors last:border-b-0 ${
+                  currentWordIdx === clue.wordIdx
+                    ? "rounded bg-green-800/5 font-semibold text-green-900"
+                    : "text-gray-700 hover:bg-green-800/[0.02]"
+                }`}
+              >
+                <span className="font-bold text-green-700">{clue.number}.</span>{" "}
+                {clue.clue}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-
-      {/* Clues — hidden on mobile (shown in sticky header), visible on desktop */}
-      <div className="hidden w-full min-w-0 flex-1 rounded-2xl border-2 border-green-800/10 bg-neutral-200/50 p-6 text-left lg:block">
-        <h3 className="mb-3 border-b-2 border-green-800/10 pb-2 text-base font-extrabold tracking-wider text-green-800 uppercase">
-          Down
-        </h3>
-        <ul className="mb-6 space-y-0">
-          {downClues.map((clue) => (
-            <li
-              key={clue.number}
-              onClick={() => handleClueClick(clue.wordIdx)}
-              className={`cursor-pointer border-b border-green-800/15 px-3 py-3 text-base transition-colors last:border-b-0 ${
-                currentWordIdx === clue.wordIdx
-                  ? "rounded bg-green-800/5 font-semibold text-green-900"
-                  : "text-gray-700 hover:bg-green-800/[0.02]"
-              }`}
-            >
-              <span className="font-bold text-green-700">{clue.number}.</span>{" "}
-              {clue.clue}
-            </li>
-          ))}
-        </ul>
-
-        <h3 className="mb-3 border-b-2 border-green-800/10 pb-2 text-base font-extrabold tracking-wider text-green-800 uppercase">
-          Across
-        </h3>
-        <ul className="space-y-0">
-          {acrossClues.map((clue) => (
-            <li
-              key={clue.number}
-              onClick={() => handleClueClick(clue.wordIdx)}
-              className={`cursor-pointer border-b border-green-800/15 px-3 py-3 text-base transition-colors last:border-b-0 ${
-                currentWordIdx === clue.wordIdx
-                  ? "rounded bg-green-800/5 font-semibold text-green-900"
-                  : "text-gray-700 hover:bg-green-800/[0.02]"
-              }`}
-            >
-              <span className="font-bold text-green-700">{clue.number}.</span>{" "}
-              {clue.clue}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      </div>{/* end grid + clues flex row */}
+      {/* end grid + clues flex row */}
 
       {!completed && (
         <div className="flex items-center gap-4">
