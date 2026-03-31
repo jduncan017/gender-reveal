@@ -32,15 +32,25 @@ export default function PasswordPage({
 
   const allCorrect = statuses.every((s) => s === "correct");
   const [morphed, setMorphed] = useState(false);
+  const [revealUrl, setRevealUrl] = useState<string | null>(null);
 
-  // Trigger morph animation after all answers are correct
+  // Trigger morph animation and fetch reveal URL after all answers are correct
   useEffect(() => {
     if (allCorrect && !morphed) {
-      // Small delay so user sees the last "correct" state before morphing
       const timeout = setTimeout(() => setMorphed(true), 600);
+      // Fetch the reveal URL from the server
+      void fetch("/api/reveal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ family }),
+      })
+        .then((res) => res.json() as Promise<{ url?: string }>)
+        .then((data) => {
+          if (data.url) setRevealUrl(data.url);
+        });
       return () => clearTimeout(timeout);
     }
-  }, [allCorrect, morphed]);
+  }, [allCorrect, morphed, family]);
 
   const updateAnswer = (index: number, value: string) => {
     setAnswers((prev) => {
@@ -121,7 +131,7 @@ export default function PasswordPage({
       {/* Questions / Reveal — centered on page */}
       <div className="flex w-full flex-1 flex-col items-center justify-center px-4 py-12">
         <div
-          onClick={morphed ? () => router.push("/8f2a9b3c7d1e") : undefined}
+          onClick={morphed && revealUrl ? () => router.push(revealUrl) : undefined}
           className={`relative w-full overflow-hidden text-center transition-all duration-1000 ease-in-out ${
             morphed
               ? "max-w-md cursor-pointer rounded-xl bg-green-500 px-8 py-6 shadow-lg shadow-green-200 hover:bg-green-600 hover:shadow-xl hover:shadow-green-300"

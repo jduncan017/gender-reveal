@@ -1,274 +1,557 @@
 {
   "dad": {
     "name": "Dad",
-    "rows": 8,
+    "rows": 10,
     "cols": 10,
     "words": [
       {
-        "answer": "POCKET",
-        "row": 0,
-        "col": 7,
-        "direction": "down",
-        "clue": "Where you told your son his tiny friend Nic could live"
-      },
-      {
-        "answer": "ADOPT",
-        "row": 1,
-        "col": 0,
-        "direction": "across",
-        "clue": "The greatest gift two kids ever received — when you chose to _____ them in '98"
-      },
-      {
-        "answer": "APPLE",
-        "row": 1,
-        "col": 0,
-        "direction": "down",
-        "clue": "\"Would you like an ___ pie with that?\" — Ding, fries are done!"
-      },
-      {
-        "answer": "DREAM",
-        "row": 1,
-        "col": 1,
-        "direction": "down",
-        "clue": "Not a movie theater, not a music theater — the kind of Theater you and your son would crank to 11 in the car"
-      },
-      {
-        "answer": "OIL",
-        "row": 1,
-        "col": 7,
-        "direction": "across",
-        "clue": "\"Would you like to buy my pouches of ___, my friend?\" — your son's RuneScape sales pitch"
-      },
-      {
-        "answer": "BROWNS",
-        "row": 2,
-        "col": 5,
-        "direction": "down",
-        "clue": "This NFL team breaks your heart every single year, yet here you are"
-      },
-      {
-        "answer": "CAMRY",
-        "row": 3,
-        "col": 2,
-        "direction": "across",
-        "clue": "The 1993 Toyota you gave your son as his first car"
-      },
-      {
         "answer": "LAWNMOWER",
-        "row": 4,
+        "row": 8,
         "col": 0,
         "direction": "across",
         "clue": "The yard machine that started more arguments than anything else in the house"
       },
       {
-        "answer": "REAM",
+        "answer": "POCKET",
         "row": 4,
-        "col": 8,
+        "col": 7,
         "direction": "down",
-        "clue": "500 sheets — you sold about a million of these over three decades"
+        "clue": "Where you told your son his tiny friend Nic could live"
+      },
+      {
+        "answer": "APPLE",
+        "row": 4,
+        "col": 5,
+        "direction": "across",
+        "clue": "\"Would you like an ___ pie with that?\" — Ding, fries are done!"
+      },
+      {
+        "answer": "PAPER",
+        "row": 1,
+        "col": 9,
+        "direction": "down",
+        "clue": "The product you sold about a million reams of over three decades"
       },
       {
         "answer": "LASAGNA",
-        "row": 6,
-        "col": 0,
+        "row": 2,
+        "col": 3,
         "direction": "across",
         "clue": "Garfield's favorite dish — and your son's, the way you made it"
+      },
+      {
+        "answer": "BROWNS",
+        "row": 4,
+        "col": 3,
+        "direction": "down",
+        "clue": "This NFL team breaks your heart every single year, yet here you are"
+      },
+      {
+        "answer": "CAMRY",
+        "row": 5,
+        "col": 0,
+        "direction": "across",
+        "clue": "The 1993 Toyota you gave your son as his first car"
+      },
+      {
+        "answer": "OIL",
+        "row": 0,
+        "col": 3,
+        "direction": "down",
+        "clue": "\"Would you like to buy my pouches of ___, my friend?\" — your son's RuneScape sales pitch"
+      },
+      {
+        "answer": "DREAM",
+        "row": 2,
+        "col": 1,
+        "direction": "down",
+        "clue": "Not a movie theater, not a music theater — the kind of Theater you and your son would crank to 11 in the car"
+      },
+      {
+        "answer": "ADOPT",
+        "row": 0,
+        "col": 1,
+        "direction": "across",
+        "clue": "What you did in '98 that changed everything for two kids"
       }
     ],
     "highlightedCells": [
-      [1, 1],
-      [2, 1],
-      [3, 1],
-      [4, 1],
-      [5, 1]
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        6,
+        1
+      ]
+    ],
+    "cipherCell": [
+      5,
+      1
     ]
   },
   "mom": {
     "name": "Mom",
-    "rows": 9,
-    "cols": 14,
+    "rows": 14,
+    "cols": 9,
     "words": [
       {
         "answer": "JAZZY",
-        "row": 0,
-        "col": 4,
-        "direction": "down",
+        "row": 4,
+        "col": 0,
+        "direction": "across",
         "clue": "The family pup who grew up right alongside us"
       },
       {
         "answer": "ROCKBAND",
-        "row": 0,
-        "col": 6,
-        "direction": "down",
+        "row": 6,
+        "col": 0,
+        "direction": "across",
         "clue": "The video game that turned our living room into a family concert"
       },
       {
         "answer": "LUCK",
-        "row": 0,
-        "col": 9,
-        "direction": "across",
-        "clue": "A four-leaf clover brings it, a horseshoe hangs for it — our family heritage says we've got plenty"
+        "row": 9,
+        "col": 0,
+        "direction": "down",
+        "clue": "What the Irish never run out of"
       },
       {
         "answer": "UTENSILS",
-        "row": 0,
-        "col": 10,
-        "direction": "down",
+        "row": 10,
+        "col": 0,
+        "direction": "across",
         "clue": "Mom's least favorite Christmas gift category — and yet, they keep showing up"
       },
       {
         "answer": "LEIST",
-        "row": 1,
-        "col": 0,
-        "direction": "down",
+        "row": 0,
+        "col": 1,
+        "direction": "across",
         "clue": "Mom's name before she said 'I do'"
       },
       {
         "answer": "PIANO",
-        "row": 1,
-        "col": 2,
-        "direction": "across",
-        "clue": "The family instrument — Mom, sis, and son all took a turn at its keys"
+        "row": 2,
+        "col": 1,
+        "direction": "down",
+        "clue": "The instrument that got passed down through the whole house"
       },
       {
         "answer": "FLY",
-        "row": 2,
-        "col": 12,
-        "direction": "down",
+        "row": 12,
+        "col": 2,
+        "direction": "across",
         "clue": "'I believe I can ____' — Josh's elementary school solo performance"
       },
       {
         "answer": "CANDLE",
-        "row": 3,
-        "col": 8,
-        "direction": "across",
-        "clue": "You always made sure there were enough of these on the cake — even when your son stopped wanting to count them"
+        "row": 8,
+        "col": 3,
+        "direction": "down",
+        "clue": "She lit every single one on every cake, every year — that's what moms do"
       },
       {
         "answer": "SASSY",
-        "row": 4,
-        "col": 0,
-        "direction": "across",
+        "row": 0,
+        "col": 4,
+        "direction": "down",
         "clue": "One word on Dad's favorite photo of Mom, taken back in high school"
       },
       {
         "answer": "SNOWGLOBE",
-        "row": 6,
-        "col": 5,
-        "direction": "across",
+        "row": 5,
+        "col": 6,
+        "direction": "down",
         "clue": "'Life is like a ________' — Mom's famous quote on live TV the day before her wedding"
       }
     ],
     "highlightedCells": [
-      [6, 5],
-      [6, 6],
-      [6, 7],
-      [6, 8],
-      [6, 9],
-      [6, 10],
-      [6, 11],
-      [6, 12],
-      [6, 13]
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        6
+      ],
+      [
+        7,
+        6
+      ],
+      [
+        8,
+        6
+      ],
+      [
+        9,
+        6
+      ],
+      [
+        10,
+        6
+      ],
+      [
+        11,
+        6
+      ],
+      [
+        12,
+        6
+      ],
+      [
+        13,
+        6
+      ]
+    ],
+    "cipherCell": [
+      6,
+      6
     ]
   },
   "mimi": {
     "name": "Mimi",
-    "rows": 5,
-    "cols": 5,
-    "words": [],
-    "highlightedCells": []
+    "rows": 14,
+    "cols": 9,
+    "words": [
+      {
+        "answer": "ORNAMENTS",
+        "row": 3,
+        "col": 7,
+        "direction": "down",
+        "clue": "The gift Mimi adds to Josh's collection every Christmas without fail"
+      },
+      {
+        "answer": "CHRISTMAS",
+        "row": 6,
+        "col": 0,
+        "direction": "across",
+        "clue": "Nobody decorates for this holiday like Mimi does — nobody"
+      },
+      {
+        "answer": "DEMOCRAT",
+        "row": 2,
+        "col": 0,
+        "direction": "down",
+        "clue": "The one thing Mimi says Josh's baby HAS to be, if nothing else"
+      },
+      {
+        "answer": "BACKRUB",
+        "row": 2,
+        "col": 2,
+        "direction": "down",
+        "clue": "The nightly request Mimi never said no to"
+      },
+      {
+        "answer": "COOKIES",
+        "row": 0,
+        "col": 4,
+        "direction": "down",
+        "clue": "Mimi's famous oatmeal chocolate-covered raisin recipe — nobody makes them like her"
+      },
+      {
+        "answer": "FAVORITE",
+        "row": 10,
+        "col": 1,
+        "direction": "across",
+        "clue": "Josh is Mimi's _______ grandkid... RIGHT??"
+      },
+      {
+        "answer": "MAGIC",
+        "row": 0,
+        "col": 0,
+        "direction": "across",
+        "clue": "______ Mountain — where Mimi and Josh spent countless days together"
+      },
+      {
+        "answer": "BROOM",
+        "row": 2,
+        "col": 2,
+        "direction": "across",
+        "clue": "The weapon Mimi used to stop traffic across a six-lane highway"
+      },
+      {
+        "answer": "STOLEN",
+        "row": 8,
+        "col": 4,
+        "direction": "down",
+        "clue": "When uncle's car was ______, Mimi and Josh turned into detectives and found it"
+      },
+      {
+        "answer": "YAWN",
+        "row": 13,
+        "col": 1,
+        "direction": "across",
+        "clue": "The fake ______ — Mimi's movie theater trick for getting your arm around your date"
+      }
+    ],
+    "highlightedCells": [
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        5,
+        4
+      ],
+      [
+        6,
+        4
+      ]
+    ],
+    "cipherCell": [
+      4,
+      4
+    ]
   },
   "papa": {
     "name": "Papa",
-    "rows": 5,
-    "cols": 5,
-    "words": [],
-    "highlightedCells": []
+    "rows": 15,
+    "cols": 11,
+    "words": [
+      {
+        "answer": "CONTRACTOR",
+        "row": 3,
+        "col": 9,
+        "direction": "down",
+        "clue": "The person running the job site — DonM Construction Corp, General ______"
+      },
+      {
+        "answer": "RECLINER",
+        "row": 7,
+        "col": 2,
+        "direction": "across",
+        "clue": "The most worn-in seat in the house — and it's reserved"
+      },
+      {
+        "answer": "RACCOONS",
+        "row": 7,
+        "col": 2,
+        "direction": "down",
+        "clue": "The masked freeloaders who feast on the back deck nightly"
+      },
+      {
+        "answer": "PRESENTS",
+        "row": 2,
+        "col": 7,
+        "direction": "down",
+        "clue": "They spilled out FEET from the tree every Christmas morning"
+      },
+      {
+        "answer": "FISHING",
+        "row": 14,
+        "col": 0,
+        "direction": "across",
+        "clue": "The reason for all those Lake Erie trips"
+      },
+      {
+        "answer": "COMPUTER",
+        "row": 3,
+        "col": 0,
+        "direction": "across",
+        "clue": "Josh always wanted to sneak into the office to play on this"
+      },
+      {
+        "answer": "PATCHES",
+        "row": 0,
+        "col": 0,
+        "direction": "down",
+        "clue": "The Shiba Inu who ran the house"
+      },
+      {
+        "answer": "CHEESE",
+        "row": 7,
+        "col": 4,
+        "direction": "down",
+        "clue": "Cottage ______ — the so-called secret diet plan"
+      },
+      {
+        "answer": "BUCKEYES",
+        "row": 9,
+        "col": 0,
+        "direction": "across",
+        "clue": "O-H-I-O! Don't say 'Michigan' in this house — these are the only team that matters"
+      },
+      {
+        "answer": "ONION",
+        "row": 11,
+        "col": 6,
+        "direction": "across",
+        "clue": "______ casserole — the star dish of every holiday gathering"
+      }
+    ],
+    "highlightedCells": [
+      [
+        14,
+        0
+      ],
+      [
+        14,
+        1
+      ],
+      [
+        14,
+        2
+      ],
+      [
+        14,
+        3
+      ],
+      [
+        14,
+        4
+      ],
+      [
+        14,
+        5
+      ],
+      [
+        14,
+        6
+      ]
+    ],
+    "cipherCell": [
+      14,
+      0
+    ]
   },
   "jacque": {
     "name": "Jacque",
-    "rows": 9,
-    "cols": 14,
+    "rows": 14,
+    "cols": 9,
     "words": [
       {
         "answer": "VISIT",
         "row": 0,
         "col": 0,
-        "direction": "across",
+        "direction": "down",
         "clue": "The thing Jacque has somehow never done in Denver"
       },
       {
         "answer": "SUN",
-        "row": 0,
-        "col": 2,
-        "direction": "down",
+        "row": 2,
+        "col": 0,
+        "direction": "across",
         "clue": "'Soak up the ______' — Jacque's early 2000s talent show hit"
       },
       {
         "answer": "DANCE",
-        "row": 2,
-        "col": 0,
-        "direction": "across",
+        "row": 0,
+        "col": 2,
+        "direction": "down",
         "clue": "Jacque's childhood classes — every recital, every costume"
       },
       {
         "answer": "CHICKEN",
-        "row": 2,
-        "col": 3,
-        "direction": "down",
+        "row": 3,
+        "col": 2,
+        "direction": "across",
         "clue": "The only flavor of soup she'll ever reach for (add noodles, obviously)"
       },
       {
         "answer": "GRANDE",
-        "row": 2,
-        "col": 6,
-        "direction": "down",
-        "clue": "Not tall, not venti — the Starbucks size that's also Jacque's favorite singer's last name"
+        "row": 6,
+        "col": 2,
+        "direction": "across",
+        "clue": "Last name of a singer who says 'thank u' and moves on"
       },
       {
         "answer": "CHAO",
-        "row": 3,
-        "col": 12,
-        "direction": "down",
+        "row": 12,
+        "col": 3,
+        "direction": "across",
         "clue": "The little creatures we raised together in Sonic Adventure"
       },
       {
         "answer": "TRAIL",
-        "row": 4,
-        "col": 0,
-        "direction": "across",
+        "row": 0,
+        "col": 4,
+        "direction": "down",
         "clue": "Shorewood ______ — the NY street we called home growing up"
       },
       {
         "answer": "NANNY",
-        "row": 4,
-        "col": 9,
-        "direction": "down",
+        "row": 9,
+        "col": 4,
+        "direction": "across",
         "clue": "What Jacque does for work — but do NOT call her a babysitter"
       },
       {
         "answer": "INSTAGRAM",
         "row": 5,
         "col": 5,
-        "direction": "across",
+        "direction": "down",
         "clue": "The app Jacque got banned from — so when is she getting it back??"
       },
       {
         "answer": "PRETZEL",
-        "row": 7,
-        "col": 1,
-        "direction": "across",
+        "row": 1,
+        "col": 7,
+        "direction": "down",
         "clue": "The snack that sent Josh to the ER, courtesy of an exercise ball and an evil little sister"
       }
     ],
     "highlightedCells": [
-      [2, 3],
-      [3, 3],
-      [4, 3],
-      [5, 3],
-      [6, 3],
-      [7, 3],
-      [8, 3]
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        3,
+        8
+      ]
+    ],
+    "cipherCell": [
+      3,
+      8
     ]
   },
   "jenna": {
@@ -323,7 +606,7 @@
         "row": 10,
         "col": 1,
         "direction": "across",
-        "clue": "The food Josh insisted his little sister try — one of his favorite memories together"
+        "clue": "Big brother's favorite food that little sis got hooked on too"
       },
       {
         "answer": "ANDROID",
@@ -348,13 +631,38 @@
       }
     ],
     "highlightedCells": [
-      [0, 1],
-      [0, 2],
-      [0, 3],
-      [0, 4],
-      [0, 5],
-      [0, 6],
-      [0, 7]
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        0,
+        7
+      ]
+    ],
+    "cipherCell": [
+      0,
+      4
     ]
   }
 }

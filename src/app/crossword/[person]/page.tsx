@@ -58,6 +58,7 @@ export default function CrosswordPage({
   const { person } = use(params);
   const [phase, setPhase] = useState<"landing" | "puzzle" | "done">("landing");
   const [secretWord, setSecretWord] = useState("");
+  const [cipherLetter, setCipherLetter] = useState("");
 
   useEffect(() => {
     if (phase === "done") {
@@ -80,35 +81,6 @@ export default function CrosswordPage({
             {data.name}&apos;s Crossword
           </h1>
           <p className="mt-2 text-green-600">Coming soon!</p>
-        </div>
-      </main>
-    );
-  }
-
-  // Landing
-  if (phase === "landing") {
-    return (
-      <main className="flex min-h-screen flex-col items-center bg-linear-to-b from-green-50 via-yellow-50 to-green-50">
-        <div className="w-full bg-green-900 px-6 pt-16 pb-10 text-center shadow-lg shadow-green-900/20">
-          <p className="mb-2 text-4xl">&#x1F9E9;</p>
-          <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
-            {data.name}&apos;s Crossword
-          </h1>
-          <p className="mt-2 text-green-100">
-            We made you a personalized crossword puzzle!
-          </p>
-        </div>
-        <div className="flex flex-1 flex-col items-center justify-center px-4 py-12">
-          <p className="mb-8 max-w-md text-center text-lg leading-relaxed text-green-600">
-            Solve the puzzle to unlock a special surprise. Take your time — no
-            rush!
-          </p>
-          <button
-            onClick={() => setPhase("puzzle")}
-            className="rounded-xl bg-green-700 px-10 py-4 text-lg font-bold text-white transition-colors hover:bg-green-800"
-          >
-            Start Puzzle
-          </button>
         </div>
       </main>
     );
@@ -141,17 +113,34 @@ export default function CrosswordPage({
             ))}
           </div>
 
+          {cipherLetter && (
+            <div
+              className="animate-fade-in mb-6"
+              style={{
+                animationDelay: `${secretWord.length * 0.15 + 1}s`,
+              }}
+            >
+              <p className="mb-2 text-lg text-green-600">
+                Your secret letter is:
+              </p>
+              <span className="inline-block rounded-lg bg-orange-300 px-5 py-3 text-4xl font-extrabold tracking-widest text-orange-900 ring-2 ring-orange-400">
+                {cipherLetter}
+              </span>
+            </div>
+          )}
+
           <div
             className="animate-fade-in rounded-xl bg-green-800/5 px-6 py-4"
             style={{
-              animationDelay: `${secretWord.length * 0.15 + 1}s`,
+              animationDelay: `${secretWord.length * 0.15 + 1.5}s`,
             }}
           >
             <p className="text-base font-semibold text-green-800">
-              &#x1F4DD; Remember this word!
+              &#x1F4DD; Remember both of these!
             </p>
             <p className="mt-1 text-sm text-green-600">
-              You&apos;ll need it to help unlock the big reveal.
+              You&apos;ll need your word and your letter to help unlock the big
+              reveal.
             </p>
           </div>
         </div>
@@ -159,19 +148,54 @@ export default function CrosswordPage({
     );
   }
 
-  // Puzzle
+  // Landing + Puzzle (combined for animation)
+  const isLanding = phase === "landing";
+
   return (
     <main className="flex min-h-screen flex-col items-center bg-linear-to-b from-green-50 via-yellow-50 to-green-50">
-      <div className="w-full bg-green-900 px-6 pt-16 pb-10 text-center shadow-lg shadow-green-900/20">
+      {/* Header — centered on landing, slides to top on puzzle */}
+      <div
+        className={`bg-green-900 text-center shadow-lg shadow-green-900/20 transition-all duration-700 ease-in-out ${
+          isLanding
+            ? "mt-[30vh] w-[calc(100%-2rem)] max-w-lg rounded-lg px-6 py-10 sm:px-12"
+            : "mt-0 w-full max-w-full rounded-none px-6 pt-16 pb-10"
+        }`}
+      >
+        <p className="mb-2 text-4xl">&#x1F9E9;</p>
         <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
           {data.name}&apos;s Crossword
         </h1>
         <p className="mt-2 text-green-100">
-          Fill in the grid to unlock a surprise
+          {isLanding
+            ? "We made you a personalized crossword puzzle!"
+            : "Fill in the grid to unlock a surprise"}
         </p>
+
+        {/* Landing content — inside the card */}
+        <div
+          className={`overflow-hidden transition-all duration-700 ${
+            isLanding ? "mt-6 max-h-40 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <p className="mb-6 text-base leading-relaxed text-green-200">
+            Solve the puzzle to unlock a special surprise. Take your time — no
+            rush!
+          </p>
+          <button
+            onClick={() => setPhase("puzzle")}
+            className="rounded-xl bg-green-600 px-10 py-4 text-lg font-bold text-white transition-colors hover:bg-green-500"
+          >
+            Start Puzzle
+          </button>
+        </div>
       </div>
 
-      <div className="flex w-full max-w-6xl flex-1 items-start px-4 py-6 sm:items-center sm:px-6 sm:py-8">
+      {/* Puzzle — fades in after header animates up */}
+      <div
+        className={`w-full max-w-6xl flex-1 items-start px-4 py-6 transition-all duration-700 sm:items-center sm:px-6 sm:py-8 ${
+          isLanding ? "pointer-events-none opacity-0" : "opacity-100"
+        }`}
+      >
         <Crossword
           rows={data.rows}
           cols={data.cols}
@@ -185,8 +209,14 @@ export default function CrosswordPage({
             }[]
           }
           highlightedCells={data.highlightedCells as [number, number][]}
-          onComplete={(word) => {
+          cipherCell={
+            "cipherCell" in data
+              ? (data.cipherCell as [number, number])
+              : null
+          }
+          onComplete={(word, cipher) => {
             setSecretWord(word);
+            setCipherLetter(cipher);
             setTimeout(() => setPhase("done"), 1500);
           }}
         />
