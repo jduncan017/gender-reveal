@@ -8,6 +8,9 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    RESEND_API_KEY: z.string(),
+    GOOGLE_MEET_LINK: z.string().url(),
+    GOOGLE_MEET_DATE: z.string(),
   },
 
   /**
@@ -25,7 +28,9 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    GOOGLE_MEET_LINK: process.env.GOOGLE_MEET_LINK,
+    GOOGLE_MEET_DATE: process.env.GOOGLE_MEET_DATE,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
