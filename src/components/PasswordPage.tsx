@@ -133,11 +133,13 @@ export default function PasswordPage({
       {/* Questions / Reveal — centered on page */}
       <div className="flex w-full flex-1 flex-col items-center justify-center px-4 py-12">
         <div
-          onClick={morphed && revealUrl ? () => router.push(revealUrl) : undefined}
+          onClick={
+            morphed && revealUrl ? () => router.push(revealUrl) : undefined
+          }
           className={`relative w-full overflow-hidden text-center transition-all duration-1000 ease-in-out ${
             morphed
               ? "max-w-md cursor-pointer rounded-xl bg-green-500 px-8 py-6 shadow-lg shadow-green-200 hover:bg-green-600 hover:shadow-xl hover:shadow-green-300"
-              : `${columns === 2 ? "max-w-5xl" : "max-w-2xl"} rounded-2xl border-2 border-green-800/10 bg-neutral-200/50 px-20 py-16`
+              : `${columns === 2 ? "max-w-5xl" : "max-w-2xl"} rounded-2xl border-2 border-green-800/10 bg-neutral-200/50 px-6 py-10 md:px-20 md:py-16`
           } `}
         >
           {/* Questions content — fades out when morphed */}
@@ -208,7 +210,8 @@ export default function PasswordPage({
             {/* Progress counter — shown below questions before morph */}
             {!allCorrect && (
               <div className="mt-8 text-lg font-bold text-gray-400">
-                {statuses.filter((s) => s === "correct").length} / {labels.length} Answered
+                {statuses.filter((s) => s === "correct").length} /{" "}
+                {labels.length} Answered
               </div>
             )}
           </div>
