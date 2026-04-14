@@ -1,0 +1,258 @@
+{
+  "dean-renae": {
+    "name": "Dean & Renae",
+    "rows": 15,
+    "cols": 14,
+    "words": [
+      {
+        "answer": "HAMSTER",
+        "row": 0,
+        "col": 13,
+        "direction": "down",
+        "clue": "Christmas gift that 'sounded like popcorn' when it was hidden leading up to Christmas - Emily and Mikel both got one, they led Mikel to the ER"
+      },
+      {
+        "answer": "COUCH",
+        "row": 2,
+        "col": 5,
+        "direction": "down",
+        "clue": "Easter basket hidden inside of this piece of furniture, with clue being a hammer on the dining room table"
+      },
+      {
+        "answer": "LAUNDRY",
+        "row": 5,
+        "col": 9,
+        "direction": "down",
+        "clue": "Type of basket Mikel would drag Emily around in to gamify cleaning their bedroom"
+      },
+      {
+        "answer": "SHITHAMMER",
+        "row": 6,
+        "col": 4,
+        "direction": "across",
+        "clue": "Name of potential farm corgi"
+      },
+      {
+        "answer": "SCOOBYDOO",
+        "row": 6,
+        "col": 4,
+        "direction": "down",
+        "clue": "Nick took Emily to her first ever movie theater outting when she was around 8 years old, starring what furry animal?"
+      },
+      {
+        "answer": "MAROON",
+        "row": 8,
+        "col": 0,
+        "direction": "across",
+        "clue": "Color that beat Schoolcraft for the MHSAA 2025 D7 State Championship title"
+      },
+      {
+        "answer": "BLUE",
+        "row": 10,
+        "col": 4,
+        "direction": "across",
+        "clue": "Shades of this color were the dress code for Dean & Renae's farm wedding"
+      },
+      {
+        "answer": "SPRAY",
+        "row": 11,
+        "col": 0,
+        "direction": "across",
+        "clue": "Type of painting Emily and Dad 'studied' for an impromptu 'art day'"
+      },
+      {
+        "answer": "DOUBLE",
+        "row": 13,
+        "col": 3,
+        "direction": "across",
+        "clue": "Trampoline bounce move for launching the heck out of one of two people"
+      },
+      {
+        "answer": "ELF",
+        "row": 6,
+        "col": 12,
+        "direction": "down",
+        "clue": "\"___ has shot the food!\""
+      }
+    ],
+    "highlightedCells": [
+      [8, 0],
+      [8, 1],
+      [8, 2],
+      [8, 3],
+      [8, 4],
+      [8, 5],
+      [8, 6]
+    ]
+  },
+  "nick": {
+    "name": "Nick",
+    "rows": 15,
+    "cols": 15,
+    "words": [
+      {
+        "answer": "BONJOVI",
+        "row": 1,
+        "col": 2,
+        "direction": "across",
+        "clue": "We bought the CD of this artist three times to listen to while driving to vacation"
+      },
+      {
+        "answer": "TSO",
+        "row": 4,
+        "col": 7,
+        "direction": "across",
+        "clue": "Dad took Emily to her first ever concert, abbr. - there were violins and fire"
+      },
+      {
+        "answer": "CONSPIRACY",
+        "row": 7,
+        "col": 2,
+        "direction": "across",
+        "clue": "On a trip to CO after riding the scenic train, we stopped into an ice cream shop and spent an hour listening to the proprietor talk about these types of theories"
+      },
+      {
+        "answer": "COVID",
+        "row": 13,
+        "col": 1,
+        "direction": "across",
+        "clue": "Disease Rhiannon had when Mikel graciously let Emily & Rhi seek refuge in Florida after escaping Europe through Germany and Ireland"
+      },
+      {
+        "answer": "BACON",
+        "row": 1,
+        "col": 2,
+        "direction": "down",
+        "clue": "Dad would weave this for sandwiches almost every Spring day of Emily's Senior year of high school"
+      },
+      {
+        "answer": "WEENIE",
+        "row": 4,
+        "col": 4,
+        "direction": "down",
+        "clue": "A MtG strategy, White ______ Army"
+      },
+      {
+        "answer": "PURPLE",
+        "row": 7,
+        "col": 6,
+        "direction": "down",
+        "clue": "For which color did Mikel bribe Emily with beenie babies and barbies in order to paint their shared bedroom?"
+      },
+      {
+        "answer": "MINDSTORMS",
+        "row": 0,
+        "col": 8,
+        "direction": "down",
+        "clue": "Lego product used during DAR program run by Dean, where Emily learned her first programming language"
+      },
+      {
+        "answer": "CIRCLE",
+        "row": 7,
+        "col": 10,
+        "direction": "down",
+        "clue": "Repeated word in the title of song that Mikel downloaded, surprising Dad while rowing, and got everyone in trouble somehow"
+      },
+      {
+        "answer": "CLARKSON",
+        "row": 7,
+        "col": 2,
+        "direction": "down",
+        "clue": "Last name of American Idol contestant that Mikel bet on from Day 1, and won the season"
+      }
+    ],
+    "highlightedCells": [
+      [4, 4],
+      [5, 4],
+      [6, 4],
+      [7, 4],
+      [8, 4],
+      [9, 4]
+    ]
+  },
+  "mikel": {
+    "name": "Mikel",
+    "rows": 15,
+    "cols": 11,
+    "words": [
+      {
+        "answer": "MINICOOPER",
+        "row": 7,
+        "col": 1,
+        "direction": "across",
+        "clue": "Type of car that is Renae's favorite, much to Holly's chagrin"
+      },
+      {
+        "answer": "ZOMETOOL",
+        "row": 6,
+        "col": 6,
+        "direction": "down",
+        "clue": "Brand of the rod and ball building kit that created many forts for doing schoolwork"
+      },
+      {
+        "answer": "SHOULDER",
+        "row": 1,
+        "col": 9,
+        "direction": "down",
+        "clue": "What Emily dislocated of Nick's when Dad was teaching self defense"
+      },
+      {
+        "answer": "BANANAS",
+        "row": 3,
+        "col": 3,
+        "direction": "down",
+        "clue": "Ai-Ai, Mi-mi, and Gon-gon collected what in the game Mikel would regularly kick everyone's butt at?"
+      },
+      {
+        "answer": "CHARLES",
+        "row": 1,
+        "col": 3,
+        "direction": "across",
+        "clue": "Beloved bench dedicatee, Remmy friend, chicken herder, loyal snuggler, and Cheese Party recipient"
+      },
+      {
+        "answer": "ISLAND",
+        "row": 4,
+        "col": 0,
+        "direction": "across",
+        "clue": "Go to Stephenson ______ for fireworks and the location of a clue in a past Easter Scavenger hunt"
+      },
+      {
+        "answer": "BUTT",
+        "row": 10,
+        "col": 4,
+        "direction": "across",
+        "clue": "Where Nick shot Emily after saying, \"The airsoft guns don't hurt that much! Trust me!\" Wrong"
+      },
+      {
+        "answer": "POTC",
+        "row": 12,
+        "col": 5,
+        "direction": "across",
+        "clue": "Nick took Emily to a movie he proceeded to see three times at the theater in one day, series abbr."
+      },
+      {
+        "answer": "UGLY",
+        "row": 5,
+        "col": 7,
+        "direction": "across",
+        "clue": "Defining feature of sneaky annual nativity add-ins"
+      },
+      {
+        "answer": "TREE",
+        "row": 0,
+        "col": 6,
+        "direction": "down",
+        "clue": "Nick and Emily got tags and hunted a live ____ in the mountain forest, for Christmas in Denver"
+      }
+    ],
+    "highlightedCells": [
+      [4, 0],
+      [4, 1],
+      [4, 2],
+      [4, 3],
+      [4, 4],
+      [4, 5]
+    ]
+  }
+}
